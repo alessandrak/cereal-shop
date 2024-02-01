@@ -5,6 +5,7 @@ from src.core import models
 from src.items import schemas
 
 
+# PRO: Seed database, nice!!
 def main():
     db = next(get_db())
     Base.metadata.drop_all(bind=engine)

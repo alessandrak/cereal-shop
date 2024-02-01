@@ -20,11 +20,16 @@ def calculate_cart_price(
     cart_skus = [x.sku for x in cart.line_items]
     cart_items = services.get_items_by_skus(db, skus=cart_skus)
 
+    # CON: Could probably have this logic inside the cart.apply_discount method. In
+    # case the cart is not eligible for the discount, it could simply not apply it.
     if has_intersection(discount.prerequisite_items, cart_items) & has_intersection(
         discount.eligible_items, cart_items
     ):
+        # Why are you creating a new Discount object (using the schema) instead of
+        # using the Discount model directly?
         cart.apply_discount(discount=schemas.Discount.from_orm(discount))
 
+    # PRO: Created a new schema to represent the response, nice!
     response = schemas.CalculateCartPriceResponse(
         totalPrice=cart.get_total_price(),
         reference=cart.reference,
@@ -33,6 +38,7 @@ def calculate_cart_price(
     return response
 
 
+# Any specific reason to also these two routes?
 @items_router.get("/items/", response_model=list[schemas.Item])
 def read_items(db: Session = Depends(get_db)):
     items = services.get_items(db)

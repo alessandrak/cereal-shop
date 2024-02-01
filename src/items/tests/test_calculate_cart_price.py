@@ -5,6 +5,7 @@ from src.main import app
 
 client = TestClient(app)
 
+# PRO: Nice tests!!
 CALCULATE_CART_PRICE_SUCCESSFULLY_DATA = [
     (
         {
