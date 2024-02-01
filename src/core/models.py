@@ -6,10 +6,13 @@ from sqlalchemy.orm import relationship
 from src.config.database import Base
 
 
+# PRO: Nice usage of an Enum to represent the discount unit
 class DiscountUnit(enum.Enum):
     percentage = "percentage"
 
 
+# Why have you decided to create an Item model instead of simply storing
+# a list of string skus?
 class Item(Base):
     __tablename__ = "item"
 
